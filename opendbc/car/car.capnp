@@ -651,6 +651,8 @@ struct CarParams {
     byd @35;
     volvo @36;
     bmw @37;
+    mg @38;
+    teslaLegacy @39;
   }
 
   enum SteerControlType {
