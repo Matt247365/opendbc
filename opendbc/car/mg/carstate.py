@@ -31,7 +31,6 @@ class CarState(CarStateBase):
       ret.gasPressed = cp.vl["GW_HSC2_HCU_FrP00"]["EPTAccelActuPosHSC2"] > 0
 
     # Brake pedal
-    ret.brake = 0
     if self.CP.carFingerprint == CAR.MG_ZS_EV:
       ret.brakePressed = cp.vl["GW_HSC2_HCU_FrP00"]["EPTBrkPdlDscrtInptStsHSC2"] == 1
     elif self.CP.carFingerprint == CAR.MG_ZS:

@@ -4,7 +4,6 @@ from opendbc.car.tesla.carcontroller import CarController
 from opendbc.car.tesla.carstate import CarState
 from opendbc.car.tesla.values import TeslaSafetyFlags, TeslaFlags, CANBUS, CAR, DBC, FSD_14_FW, Ecu, TeslaLegacyParams, LEGACY_CARS
 from opendbc.car.tesla.radar_interface import RadarInterface, RADAR_START_ADDR
-from opendbc.car.tesla.radar_interface import RadarInterface
 
 
 class CarInterface(CarInterfaceBase):
@@ -84,10 +83,6 @@ class CarInterface(CarInterfaceBase):
     ret.alphaLongitudinalAvailable = True
     ret.openpilotLongitudinalControl = True
     ret.safetyConfigs[0].safetyParam |= TeslaSafetyFlags.LONG_CONTROL.value
-
-    ret.vEgoStopping = 0.1
-    ret.vEgoStarting = 0.1
-    ret.stoppingDecelRate = 0.3
 
     # ret.dashcamOnly = candidate in (CAR.TESLA_MODEL_X) # dashcam only, pending find invalidLkasSetting signal
 

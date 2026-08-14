@@ -6,7 +6,6 @@ from opendbc.car.lateral import get_max_angle_delta_vm, get_max_angle_vm
 from opendbc.car.tesla.values import CarControllerParams, TeslaSafetyFlags
 from opendbc.car.structs import CarParams
 from opendbc.car.vehicle_model import VehicleModel
-from opendbc.can import CANDefine
 from opendbc.safety.tests.libsafety import libsafety_py
 import opendbc.safety.tests.common as common
 from opendbc.safety.tests.common import CANPackerSafety, away_round, round_speed
@@ -100,14 +99,14 @@ class TeslaLegacyLateralBase(common.CarSafetyTest, common.AngleSteeringSafetyTes
 
   def test_rx_hook(self):
     # Test angle command reception
-    for i in range(5):
+    for _ in range(5):
       msg = self._angle_cmd_msg(0, True, bus=2)
       self.safety.set_controls_allowed(True)
       self.assertTrue(self._rx(msg))
       self.assertTrue(self.safety.get_controls_allowed())
 
     # Test speed message reception
-    for i in range(5):
+    for _ in range(5):
       msg = self._speed_msg(0)
       self.safety.set_controls_allowed(True)
       self.assertTrue(self._rx(msg))
@@ -283,7 +282,7 @@ class TeslaLegacyLongitudinalBase(common.CarSafetyTest, common.LongitudinalAccel
 
   def test_rx_hook(self):
     # Test longitudinal command reception
-    for i in range(5):
+    for _ in range(5):
       msg = self._long_control_msg(0, bus=2)
       self.safety.set_controls_allowed(True)
       self.assertTrue(self._rx(msg))

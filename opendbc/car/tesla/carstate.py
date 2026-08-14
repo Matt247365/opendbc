@@ -174,7 +174,6 @@ class CarState(CarStateBase):
     ret.gasPressed = cp_pt.vl["DI_torque1"]["DI_pedalPos"] > 0
 
     # Brake pedal
-    ret.brake = 0
     ret.brakePressed = cp_chassis.vl["BrakeMessage"]["driverBrakeStatus"] == 2
 
     # Steering wheel

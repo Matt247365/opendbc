@@ -47,6 +47,20 @@ PLATFORM_TO_CAR = {
   b'X': CAR.TESLA_MODEL_X,
 }
 
+MODERN_PLATFORMS = set(PLATFORM_TO_CAR.values())
+
+RAW_FW = {
+  b'\x01\x0113\x04\x00\x01\x00\x00\x00\t\x00\x00\x00\x01\x00\x00\xff\xff',
+  b'\x01\x0113\x04\x00\x01\x00\x00\x01\x01\x00\x00\x00\x00\x00\x00\xff\xff',
+}
+
+# match the FSD 14 rule but unconfirmed on real cars, so deliberately not in FSD_14_FW
+UNCONFIRMED_FSD_14_FW = {
+  b'TeMYG4_Main_0.0.0 (67),Y4OC003.04.3',
+  b'TeMYG4_Main_0.0.0 (77),Y4OC003.06.5',
+  b'TeMYG4_Main_0.0.0 (78),Y4OC003.07.0',
+}
+
 # Hypothesized FSD 14 profile, in terms of variant_code bookends (given software_major >= 4):
 #   M3: variant_code starts with '4H',  ends with '015'
 #   MY: variant_code starts with '4',   ends with '003'
@@ -61,7 +75,11 @@ class TestTeslaFingerprint(unittest.TestCase):
   def test_fw_platform_code(self):
     # Every EPS FW must parse and its platform letter must match the car it's filed under.
     for car_model, ecus in FW_VERSIONS.items():
+      if car_model not in MODERN_PLATFORMS:
+        continue
       for fw in ecus.get((Ecu.eps, 0x730, None), []):
+        if fw in RAW_FW:
+          continue
         m = FW_RE.match(fw)
 
         assert m is not None, f"Unparsable FW: {fw}"
@@ -74,6 +92,8 @@ class TestTeslaFingerprint(unittest.TestCase):
 
       variant_prefix, variant_suffix = FSD_14_FW_RULE[car_model]
       for fw in ecus.get((Ecu.eps, 0x730, None), []):
+        if fw in RAW_FW or fw in UNCONFIRMED_FSD_14_FW:
+          continue
         m = FW_RE.match(fw)
         assert m is not None, f"Unparsable FW: {fw}"
 

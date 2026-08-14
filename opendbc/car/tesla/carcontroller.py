@@ -49,7 +49,7 @@ class CarController(CarControllerBase):
       # Angular rate limit based on speed
       self.apply_angle_last = apply_steer_angle_limits_vm(actuators.steeringAngleDeg, self.apply_angle_last, CS.out.vEgoRaw, CS.out.steeringAngleDeg,
                                                           lat_active, CarControllerParams, self.VM)
-      if self.CP.carFingerprint in LEGACY_CARS:
+      if isinstance(self.tesla_can, TeslaCANRaven):
         cntr = (self.frame // 2) % 16
         can_sends.append(self.tesla_can.create_steering_control(cntr, self.apply_angle_last, lat_active))
       else:
